@@ -1,0 +1,42 @@
+server:
+  servlet:
+    context-path: /
+  use-forward-headers: true
+  tomcat:
+    remote-ip-header: x-forwarded-for
+    protocol_header: x-forwarded-proto
+
+spring:
+  application:
+    name: dps-welcome
+  main:
+    allow-bean-definition-overriding: true
+  thymeleaf:
+    render-hidden-markers-before-checkboxes: true
+
+logging.level.uk.gov: INFO
+
+management:
+  endpoints:
+    web:
+      base-path: /
+      exposure:
+        include: 'info, health, ping'
+  endpoint:
+    health:
+      cache:
+        time-to-live: 2000ms
+      show-details: always
+    info:
+      cache:
+        time-to-live: 2000ms
+
+azure:
+  application-insights:
+    web:
+      enabled: true
+      enable-w3-c-backcompat-mode: true
+
+graceful:
+  shutdown:
+    enabled: true
