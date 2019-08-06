@@ -9,4 +9,10 @@ env:
       secretKeyRef:
         name: {{ template "app.name" . }}
         key: APPINSIGHTS_INSTRUMENTATIONKEY
+
+  - name: APP_SERVICES_PNOMIS_URL
+    value: {{ .Values.env.APP_SERVICES_PNOMIS_URL | quote }}
+
+  - name: APP_SERVICES_DPS_HOME_URL
+    value: {{ .Values.env.APP_SERVICES_DPS_HOME_URL | quote }}
 {{- end -}}

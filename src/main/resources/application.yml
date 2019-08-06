@@ -40,3 +40,8 @@ azure:
 graceful:
   shutdown:
     enabled: true
+
+app:
+  services:
+    pnomis-url: http://localhost:7777
+    dps-home-url: http://localhost:3000
