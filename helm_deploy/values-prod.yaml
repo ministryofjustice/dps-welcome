@@ -17,4 +17,5 @@ ingress:
   path: /
 
 env:
-  VARIABLE: foo
+  APP_SERVICES_PNOMIS_URL: https://c.nomis.az.justice.gov.uk/forms/frmservlet?config=tag
+  APP_SERVICES_DPS_HOME_URL: https://notm.service.hmpps.dsd.io
