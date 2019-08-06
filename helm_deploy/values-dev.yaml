@@ -18,3 +18,5 @@ ingress:
 
 env:
   circleci_build_url: none
+  APP_SERVICES_PNOMIS_URL: https://t3-cn.hmpp-azdt.justice.gov.uk/forms/frmservlet?config=tag
+  APP_SERVICES_DPS_HOME_URL: https://notm-dev.hmpps.dsd.io

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="en"
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.w3.org/1999/xhtml" lang="en"
       layout:decorate="~{fragments/layout}">
 <head>
     <title>DPS Welcome</title>
@@ -7,16 +7,24 @@
 <body>
 <div layout:fragment="content" class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-xl">HMPPS Services</h1>
-    <p class="govuk-body">
-        NOMIS System is Running.
-    </p>
-    <a class="govuk-button" href="https://c.nomis.az.justice.gov.uk/forms/frmservlet?config=tag" id="p-nomis-launch">Launch P-NOMIS</a>
 
-    <p class="govuk-body">
-        DPS System is Running.
-    </p>
-    <a class="govuk-button" href="file:///C:/Program%20Files%20(x86)/Mozilla%20Firefox/firefox.exe -P 'HMPS' https://notm.service.hmpps.dsd.io" id="dps-launch">Launch DPS</a>
-    <a class="govuk-button" href="file:///C:/Program%20Files/Windows%20Media%20Player/wmplayer.exe" id="dps-media">Launch Media Player</a>
+    <div class="govuk-grid-row" th:each="row: ${#numbers.sequence(0, services.size(), 2)}">
+        <div th:each="i: ${#numbers.sequence(row, row + 1)}" th:if="${i &lt; services.size()}"
+             th:with="service=${services.get(i)}" class="govuk-grid-column-one-half">
+            <div class="govuk-card">
+                <div class="govuk-card__content">
+                    <h3 class="govuk-heading-m">
+                        <span th:text="${service.description}">A Service</span>
+                    </h3>
+                    <p class="govuk-body" th:if="${service.healthOk}">Service Running</p>
+                    <p class="govuk-error-message" th:if="${!service.healthOk}">Service is Down</p>
+                    <div class="govuk-form-group" th:if="${service.healthOk}">
+                        <a class="govuk-button"  th:id="${service.name}" th:href="${service.url}" th:text="Start">Start</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>

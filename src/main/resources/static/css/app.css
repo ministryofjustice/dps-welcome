@@ -28,12 +28,8 @@
   border-bottom-color: white;
 }
 
-#username {
-  text-transform: uppercase;
-}
-
 #cancel {
-  background-color: #dee0e2;
+  background-color: #f3f2f1;
   color: #0b0c0c;
 }
 
@@ -54,7 +50,7 @@
 
 .show-password button {
   font-size: 16px;
-  background-color: #dee0e2;
+  background-color: #f3f2f1;
   color: #0b0c0c;
   padding: 3px;
   margin-top: 7px;
@@ -66,7 +62,7 @@
 }
 
 .show-password button:focus, .show-password button:hover {
-  background-color: #dee0e2;
+  background-color: #f3f2f1;
   color: #0b0c0c;
 }
 
