@@ -17,4 +17,4 @@ ingress:
   path: /
 
 env:
-  VARIABLE: foo
+  circleci_build_url: none

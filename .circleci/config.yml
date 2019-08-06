@@ -1,4 +1,17 @@
 version: 2.1
+parameters:
+  skip_build:
+    type: boolean
+    default: false
+  deploy_app_version:
+    type: string
+    default: ""
+  deploy_dev:
+    type: boolean
+    default: false
+  deploy_prod:
+    type: boolean
+    default: false
 commands:
   setup:
     description: "Install tools and configure kubectl"
@@ -33,18 +46,29 @@ commands:
           path: ~/git
       - attach_workspace:
           at: ~/app
+      - run:
+          name: Determine app version to deploy
+          command: |
+            if [ -z "<< pipeline.parameters.deploy_app_version >>" ]; then
+              APP_VERSION=$(cat ~/app/app_version.txt)
+            else
+              APP_VERSION=<< pipeline.parameters.deploy_app_version >>
+            fi
+            echo "export APP_VERSION=${APP_VERSION}" >> $BASH_ENV
       - deploy:
           name: Deploy to << parameters.env >>
           command: |
-            APP_VERSION=$(cat ~/app/app_version.txt)
+            echo "Deploying app version: ${APP_VERSION}"
             aws secretsmanager --region ${AWS_DEFAULT_REGION} get-secret-value --secret-id ${KUBE_ENV_NAMESPACE} | jq -r .SecretString | \
             helm upgrade dps-welcome ~/git/helm_deploy/dps-welcome/. \
               --install --wait --force --reset-values --timeout 360 \
               --tiller-namespace=${KUBE_ENV_NAMESPACE} \
               --namespace=${KUBE_ENV_NAMESPACE} \
+              --description="${APP_VERSION} - ${CIRCLE_BUILD_URL}" \
               --values ~/git/helm_deploy/values-<< parameters.env >>.yaml \
               --values ~/git/helm_deploy/values-whitelist.yaml \
               --values - \
+              --set circleci_build_url=${CIRCLE_BUILD_URL} \
               --set image.tag="${APP_VERSION}"
 executors:
   deployer:
@@ -80,9 +104,9 @@ jobs:
 
             # make up a good version name
             TAG=${APP_VERSION}.${CIRCLE_BRANCH}
-            if [[ "${CIRCLE_BRANCH}" == "master" ]]; then
-              TAG=${APP_VERSION}
-            fi
+            #if [[ "${CIRCLE_BRANCH}" == "master" ]]; then
+            #  TAG=${APP_VERSION}
+            #fi
             echo $TAG > ./app_version.txt
 
       - save_cache:
@@ -120,14 +144,13 @@ jobs:
                --label "build.number=$CIRCLE_BUILD_NUM" \
                --label "build.url=$CIRCLE_BUILD_URL" \
                --label "build.gitref=$CIRCLE_SHA1"
-
-            if [[ "${CIRCLE_BRANCH}" == "master" ]]; then
+            #if [[ "${CIRCLE_BRANCH}" == "master" ]]; then
               # publish to docker hub as the tag
-             docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-             docker tag mojdigitalstudio/dps-welcome:$APP_VERSION mojdigitalstudio/dps-welcome:latest
-             docker push mojdigitalstudio/dps-welcome:$APP_VERSION
-             docker push mojdigitalstudio/dps-welcome:latest
-            fi
+              docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+              docker tag mojdigitalstudio/dps-welcome:$APP_VERSION mojdigitalstudio/dps-welcome:latest
+              docker push mojdigitalstudio/dps-welcome:$APP_VERSION
+              docker push mojdigitalstudio/dps-welcome:latest
+            #fi
 
   deploy_dev:
     executor: deployer
@@ -143,6 +166,7 @@ jobs:
 workflows:
   version: 2
   build-test-and-deploy:
+    unless: << pipeline.parameters.skip_build >>
     jobs:
       - build:
           filters:
@@ -151,9 +175,9 @@ workflows:
       - build_docker:
           requires:
             - build
-          filters:
-            branches:
-              only: master
+          #filters:
+            #branches:
+              #only: master
       - deploy_dev:
           requires:
             - build_docker
@@ -165,3 +189,12 @@ workflows:
           context: dps-welcome-prod
           requires:
             - request-prod-approval
+  deploy-dev-only:
+    when: << pipeline.parameters.deploy_dev >>
+    jobs:
+      - deploy_dev
+  deploy-prod-only:
+    when: << pipeline.parameters.deploy_prod >>
+    jobs:
+      - deploy_prod:
+          context: dps-welcome-prod
