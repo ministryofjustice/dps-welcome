@@ -7,6 +7,9 @@ metadata:
     chart: {{ template "app.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
+    version: {{ .Values.image.tag }}
+  annotations:
+    kubernetes.io/change-cause: {{ .Values.circleci_build_url | default "none" }}
 spec:
   replicas: {{ .Values.replicaCount }}
   revisionHistoryLimit: 2
