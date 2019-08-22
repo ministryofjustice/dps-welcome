@@ -48,7 +48,9 @@ helm init --tiller-namespace dps-welcome-dev --service-account tiller --history-
 
 ### Setup Lets Encrypt cert
 
+Ensure the certificate definition exists in the cloud-platform-environments repo under the relevant namespaces folder
+
+e.g.
 ```
-kubectl -n dps-welcome-dev apply -f certificate-dev.yaml
-kubectl -n dps-welcome-prod apply -f certificate-prod.yaml
+cloud-platform-environments/namespaces/live-1.cloud-platform.service.justice.gov.uk/[INSERT NAMESPACE NAME]/05-certificate.yaml
 ```
