@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.w3.org/1999/xhtml" lang="en"
+      layout:decorate="~{fragments/layout}">
+<head>
+    <title>HDC Tutorials</title>
+</head>
+<body>
+<div layout:fragment="content" class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">HDC Tutorial Videos</h1>
+    <p class="govuk-body">
+        This video shows you how to use the HDC Service.
+    </p>
+
+    <video id="video" width="720" height="405" controls autoplay></video>
+
+</div>
+
+<script layout:fragment="video-script" th:src="@{/js/shaka-player.js}"></script>
+<script layout:fragment="page-script" th:src="@{/js/video-stream.js}"></script>
+
+</body>
+</html>
