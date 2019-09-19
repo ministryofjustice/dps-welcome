@@ -1,5 +1,5 @@
 var manifestUri =
-    '/video/eligibility screening.mpd';
+    '/assets/eligibility_screening/HLS/eligibility_screening.m3u8';
 
 function initApp() {
     // Install built-in polyfills to patch browser incompatibilities.
