@@ -1,5 +1,5 @@
 var manifestUri =
-    '/assets/eligibility_screening/HLS/eligibility_screening.m3u8';
+    '/assets/eligibility_screening/DASH/eligibility_screening.mpd';
 
 function initApp() {
     // Install built-in polyfills to patch browser incompatibilities.
