@@ -12,7 +12,7 @@ image:
 ingress:
   enabled: true
   enable_whitelist: true
-  host: dps-welcome.service.justice.gov.uk
+  host: welcome.prison.service.justice.gov.uk
   cert_secret: dps-welcome-cert
   path: /
 
