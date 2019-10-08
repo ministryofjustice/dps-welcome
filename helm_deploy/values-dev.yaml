@@ -16,6 +16,8 @@ ingress:
   cert_secret: dps-welcome-cert
   path: /
 
+s3_bucket_assets: dps-welcome-videos-converted20190919110811891200000002.s3-website.eu-west-2.amazonaws.com
+
 env:
   circleci_build_url: none
   APP_SERVICES_PNOMIS_URL: https://t3-cn.hmpp-azdt.justice.gov.uk/forms/frmservlet?config=tag
