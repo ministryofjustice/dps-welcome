@@ -28,8 +28,8 @@ spec:
             backend:
               serviceName: {{ $fullName }}
               servicePort: http
-         - path: /assets
-           backend:
-             serviceName: s3-assets
-             servicePort: 80
+          - path: /assets
+            backend:
+              serviceName: s3-assets
+              servicePort: 80
 {{- end }}
