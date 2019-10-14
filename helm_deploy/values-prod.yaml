@@ -20,4 +20,4 @@ s3_bucket_assets: dps-welcome-videos-converted20190919110811891200000002.s3-webs
 
 env:
   APP_SERVICES_PNOMIS_URL: https://c.nomis.az.justice.gov.uk/forms/frmservlet?config=tag
-  APP_SERVICES_DPS_HOME_URL: https://notm.service.hmpps.dsd.io
+  APP_SERVICES_DPS_HOME_URL: https://digital.prison.service.justice.gov.uk

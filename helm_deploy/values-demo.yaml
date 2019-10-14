@@ -12,13 +12,11 @@ image:
 ingress:
   enabled: true
   enable_whitelist: true
-  host: welcome-dev.prison.service.justice.gov.uk
-  cert_secret: dps-welcome-cert
+  host: demomatt.dps-welcome.service.justice.gov.uk
+  cert_secret: dps-welcome-cert1
   path: /
-
-s3_bucket_assets: dps-welcome-videos-converted20190919110811891200000002.s3-website.eu-west-2.amazonaws.com
 
 env:
   circleci_build_url: none
   APP_SERVICES_PNOMIS_URL: https://t3-cn.hmpp-azdt.justice.gov.uk/forms/frmservlet?config=tag
-  APP_SERVICES_DPS_HOME_URL: https://digital-dev.prison.service.justice.gov.uk
+  APP_SERVICES_DPS_HOME_URL: https://notm-dev.hmpps.dsd.io
